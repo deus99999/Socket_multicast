@@ -24,6 +24,9 @@ def connect_tcp():
             break
 
 
+def connect_udp():
+    pass
+
 def choice():
     print("\n1. TCP\n2. Multicast\n")
     choose = input("Choose number of connection: ")
