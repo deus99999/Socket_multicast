@@ -1,6 +1,5 @@
 import socket
 import struct
-import sys
 
 
 def connect_tcp():
@@ -14,9 +13,9 @@ def connect_tcp():
     # print(server_message)
    # print(type(server_message))
 
-    print("\n", server_message.decode("utf-8"))
+    print(server_message.decode("utf-8"))
 
-    print("\nClient: Enter '3' to change server")
+    print("Client: Enter '3' to change server")
     while True:
         msg = input()
         # s.sendall(msg.encode())
@@ -46,31 +45,30 @@ def connect_udp():
     # set options for work with multicast
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
-    try:
-        while True:
-            print("\nClient: Waiting for message..\n")
-            data, address = sock.recvfrom(1024)
+    print("Client: Waiting for message..")
+    while True:
 
-            byte_array_data = bytearray(data)
-            print(byte_array_data)
+        data, address = sock.recvfrom(1024)
 
-            # sock.sendto(bytes("\nServer TCP: This message was received from TCP server.",
-            #                   encoding='utf-8'), address)
+        byte_array_data = bytearray(data)
+        print(byte_array_data)
 
-            msg = input()
-            if msg == "3":
-                print("Client: Connection was closed.")
-                break
+        # sock.sendto(bytes("\nServer TCP: This message was received from TCP server.",
+        #                   encoding='utf-8'), address)
 
-    # except KeyboardInterrupt as ki:
-    #     if ki:
-    #         # Обработка прерывания (Ctrl+C)
-    except:
-        print("Disconnecting from multicast group...")
-        sock.setsockopt(socket.IPPROTO_IP, socket.IP_DROP_MEMBERSHIP, mreq)
+        msg = input("\nTo continue receiving data press '2' or '3' for connection closing. ")
+        if msg == "2":
+            print('')
+            continue
 
-        sock.close()
-        choice_of_server()
+        if msg == "3":
+            print("Disconnecting from multicast group...")
+            sock.setsockopt(socket.IPPROTO_IP, socket.IP_DROP_MEMBERSHIP, mreq)
+            print("Client: Connection was closed.")
+            sock.close()
+            break
+
+    choice_of_server()
 
 
 def choice_of_server():

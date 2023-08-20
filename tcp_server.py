@@ -11,8 +11,8 @@ def start_server():
         client, address = server.accept()               # сервер ждет подключение клиента
         print(f"Server TCP: Connection from {address} has been established.")
 
-        client.send(bytes("\nServer TCP: This message was received from TCP server.",
-                          encoding='utf-8'))
+        client.send(bytearray(b"\nServer TCP: This message was received from TCP server."))
+
         # data = client.recv(1024)
 
 
